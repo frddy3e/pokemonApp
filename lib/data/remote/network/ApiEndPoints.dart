@@ -1,4 +1,4 @@
 class ApiEndPoints {
-  final String getPokemons = "pokemon?limit=3&offset=0";
-  final String getPokemon = "pokemon/6/";
+  String getPokemons(int limit, int offset) => "pokemon?limit=$limit&offset=$offset";
+  String getPokemon(int id) => "pokemon/$id/";
 }
