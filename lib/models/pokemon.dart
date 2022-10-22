@@ -2,22 +2,18 @@ import 'dart:convert';
 
 class PokemonList {
   PokemonList({
-    this.pokemon,
+    this.pokemonList,
   });
 
-  List<Pokemon>? pokemon;
+  List<Pokemon>? pokemonList;
 
   factory PokemonList.fromJson(Map<String, dynamic> json) => PokemonList(
-        pokemon: json["pokemon"] == null
-            ? null
-            : List<Pokemon>.from(
-                json["pokemon"].map((x) => Pokemon.fromJson(x))),
+        pokemonList: List<Pokemon>.from(
+            json["results"].map((x) => Pokemon.fromJson(x))),
       );
-
   Map<String, dynamic> toJson() => {
-        "pokemon": pokemon == null
-            ? null
-            : List<dynamic>.from(pokemon!.map((x) => x.toJson())),
+        "results":
+            List<dynamic>.from(pokemonList!.map((x) => x.toJson())),
       };
 }
 
