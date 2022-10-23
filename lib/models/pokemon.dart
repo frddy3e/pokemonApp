@@ -29,6 +29,7 @@ class Pokemon {
     this.defense,
     this.speed,
     this.skills,
+    this.url,
   });
 
     int? id;
@@ -38,17 +39,19 @@ class Pokemon {
     int? attack;
     int? defense;
     int? speed;
+    String? url;
     List<Skill>? skills;
 
 
     factory Pokemon.fromJson(Map<String, dynamic> json) => Pokemon(
         id: json["id"] == null ? null : json["id"],
         name: json["name"] == null ? null : json["name"],
-        imageUrl: json["imageUrl"] == null ? null : json["imageUrl"],
-        hp: json["hp"] == null ? null : json["hp"],
-        attack: json["attack"] == null ? null : json["attack"],
-        defense: json["defense"] == null ? null : json["defense"],
-        speed: json["speed"] == null ? null : json["speed"],
+        imageUrl: json["sprites"]?["front_default"] ?? null,
+        hp: json["stats"]?[0]?["base_stat"] ?? null,
+        attack: json["stats"]?[1]?["base_stat"] ?? null,
+        defense: json["stats"]?[2]?["base_stat"] ?? null,
+        speed: json["stats"]?[5]?["base_stat"] ?? null,
+        url: json["url"] == null ? null : json["url"],
         //skills: json["habilitiesId"] == null ? null : List<int>.from(json["habilitiesId"].map((x) => x)),
     );
 
@@ -60,6 +63,7 @@ class Pokemon {
         "attack": attack == null ? null : attack,
         "defense": defense == null ? null : defense,
         "speed": speed == null ? null : speed,
+        "url": url == null ? null : url,
         //"habilitiesId": skillIds == null ? null : List<dynamic>.from(skillIds!.map((x) => x)),
     };
 }

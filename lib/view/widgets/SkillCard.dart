@@ -7,23 +7,27 @@ import 'package:pokemon_app/res/styles/styles.dart';
 class SkillCard extends StatelessWidget{
   final Skill skill;
   final bool isSelected;
-  SkillCard({required this.skill, required this.isSelected});
+  final VoidCallback onTap;
+  SkillCard({required this.skill, required this.isSelected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     print(skill.name);
-    return Card(
-      elevation: 5.0,
-      child: Container(
-        padding: EdgeInsets.all(10.0),
-        child: Text(
-            skill.name ?? "",
-          style: pokemonRegular.copyWith(
-            fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        elevation: 5.0,
+        child: Container(
+          padding: EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.black26 : Colors.white,
           ),
-        ),
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.black26 : Colors.white,
+          child: Text(
+            skill.name ?? "",
+            style: pokemonRegular.copyWith(
+              fontSize: Dimensions.FONT_SIZE_DEFAULT,
+            ),
+          ),
         ),
       ),
     );

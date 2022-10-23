@@ -4,14 +4,16 @@ import 'package:pokemon_app/view_model/SkillsVM.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/remote/responses/Status.dart';
+import '../../models/pokemon.dart';
 import '../../models/skill.dart';
 import '../../res/colors/colors.dart';
 import '../../res/dimensions/dimensions.dart';
 import '../../res/styles/styles.dart';
 class SkillsDetails extends StatefulWidget {
 
+  Pokemon pokemon;
   List<Skill> skills;
-  SkillsDetails({Key? key, required this.skills}) : super(key: key);
+  SkillsDetails({Key? key, required this.skills, required this.pokemon}) : super(key: key);
 
   @override
   State<SkillsDetails> createState() => _SkillsDetailsState();
@@ -20,6 +22,7 @@ class SkillsDetails extends StatefulWidget {
 class _SkillsDetailsState extends State<SkillsDetails> {
   final SkillsVM viewModel = SkillsVM();
 
+  Skill _choosenSkill = Skill();
 
   @override
   void initState() {
@@ -70,6 +73,18 @@ class _SkillsDetailsState extends State<SkillsDetails> {
               textAlign: TextAlign.left
           ),
         ): _listSkillItem(widget.skills),
+        SizedBox(height: 40,),
+        _choosenSkill.name != "" ? Container(
+          alignment: Alignment.centerLeft,
+          child: Text(
+              _choosenSkill.description?? "",
+              style: pokemonBold.copyWith(
+                color: ColorsApp.COLOR_PRIMARY,
+                fontSize: Dimensions.FONT_SIZE_LARGE,
+              ),
+              textAlign: TextAlign.left
+          ),
+        ): Container(),
       ],
     );
   }
@@ -89,7 +104,11 @@ class _SkillsDetailsState extends State<SkillsDetails> {
         children: List.generate(skillsList?.length ?? 0, (index) {
           return SkillCard(
               skill: skillsList![index],
-            isSelected: true,
+            isSelected: widget.skills.contains(skillsList[index]),
+            onTap: (){
+              setState(() => _choosenSkill = skillsList[index]);
+
+            },
           );
         }),
       ),
