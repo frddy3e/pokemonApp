@@ -37,7 +37,7 @@ class ChoosePokemon extends StatelessWidget {
             name,
             style: pokemonBold.copyWith(
               color: isChosen ? Colors.white : ColorsApp.COLOR_PRIMARY,
-              fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+              fontSize: Dimensions.FONT_SIZE_LARGE,
             ),
             textAlign: TextAlign.center,
           ),

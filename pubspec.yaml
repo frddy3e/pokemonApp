@@ -78,7 +78,8 @@ flutter:
   fonts:
     - family: HandWriting
       fonts:
-        - asset: assets/fonts/toms-handwritten.ttf
+        - asset: assets/fonts/FuzzyBubbles-Bold.ttf
+        - asset: assets/fonts/FuzzyBubbles-Regular.ttf
 #     - family: Trajan Pro
 #       fonts:
 #         - asset: fonts/TrajanPro.ttf

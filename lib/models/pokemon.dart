@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:pokemon_app/models/skill.dart';
+
 class PokemonList {
   PokemonList({
     this.pokemonList,
@@ -26,7 +28,7 @@ class Pokemon {
     this.attack,
     this.defense,
     this.speed,
-    this.skillIds,
+    this.skills,
   });
 
     int? id;
@@ -36,7 +38,7 @@ class Pokemon {
     int? attack;
     int? defense;
     int? speed;
-    List<int>? skillIds;
+    List<Skill>? skills;
 
 
     factory Pokemon.fromJson(Map<String, dynamic> json) => Pokemon(
@@ -47,7 +49,7 @@ class Pokemon {
         attack: json["attack"] == null ? null : json["attack"],
         defense: json["defense"] == null ? null : json["defense"],
         speed: json["speed"] == null ? null : json["speed"],
-        skillIds: json["habilitiesId"] == null ? null : List<int>.from(json["habilitiesId"].map((x) => x)),
+        //skills: json["habilitiesId"] == null ? null : List<int>.from(json["habilitiesId"].map((x) => x)),
     );
 
     Map<String, dynamic> toJson() => {
@@ -58,6 +60,6 @@ class Pokemon {
         "attack": attack == null ? null : attack,
         "defense": defense == null ? null : defense,
         "speed": speed == null ? null : speed,
-        "habilitiesId": skillIds == null ? null : List<dynamic>.from(skillIds!.map((x) => x)),
+        //"habilitiesId": skillIds == null ? null : List<dynamic>.from(skillIds!.map((x) => x)),
     };
 }
