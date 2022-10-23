@@ -12,7 +12,6 @@ class SkillCard extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    print(skill.name);
     return InkWell(
       onTap: onTap,
       child: Card(

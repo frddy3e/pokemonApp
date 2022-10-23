@@ -64,13 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Consumer<PokemonListVM>(builder: (context, viewModel, _) {
                 switch (viewModel.pokemonMain.status) {
                   case Status.LOADING:
-                    print("LOADING");
+                    //print("LOADING");
                     return Center(child: CircularProgressIndicator());
                   case Status.ERROR:
-                    print("ERROR");
+                    //print("ERROR");
                     return Center(child: Text(viewModel.pokemonMain.message ?? "NA"));
                   case Status.COMPLETED:
-                    print("COMPLETED");
+                    //print("COMPLETED2");
                     return _getPokemonListView(viewModel.pokemonMain.data?.pokemonList);
                   default:
                 }

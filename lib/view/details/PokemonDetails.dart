@@ -25,40 +25,41 @@ class _PokemonDetailsState extends State<PokemonDetails> {
     String? url = widget.pokemon!.url?? "/0/0/";
     url = url.substring(0, url.length - 1);
     int pokemonId = int.parse(url.split("/").last);
-    viewModel.fetchPokemon(pokemonId);
+    if(pokemonId > 0){
+      viewModel.fetchPokemon(pokemonId);
+    }
   }
 
   @override
   void initState() {
-    getPokemon();
+    //getPokemon();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    getPokemon();
+    if(widget.pokemon!.name == null){
+      return noPokemonSelected();
+    }
+    if(widget.pokemon!.hp == null){
+      getPokemon();
+    }
     return Expanded(
-      child: widget.pokemon?.name == null ?
-      noPokemonSelected():
-      Column(
+      child: Column(
         children: [
-          SkillsDetails(
-            pokemon: widget.pokemon!,
-              skills: widget.pokemon!.skills?? []
-          ),
           ChangeNotifierProvider<PokemonVM>(
             create: (context) => viewModel,
             child: Consumer<PokemonVM>(
               builder: (context, model, child) {
                 switch (viewModel.pokemonMain.status) {
                   case Status.LOADING:
-                    print("LOADING");
+                    //print("LOADING");
                     return Center(child: CircularProgressIndicator());
                   case Status.ERROR:
-                    print("ERROR");
+                    //print("ERROR");
                     return Center(child: Text(viewModel.pokemonMain.message ?? "NA"));
                   case Status.COMPLETED:
-                    print("COMPLETED");
+                    //print("COMPLETED");
                     return pokemonView(viewModel.pokemonMain.data);
                   default:
                 }
@@ -76,13 +77,17 @@ class _PokemonDetailsState extends State<PokemonDetails> {
       margin: EdgeInsets.all(10),
       child: Column(
         children: [
+          SkillsDetails(
+            pokemon: pokemon!,
+            viewModel: viewModel,
+          ),
           Text(
-            pokemon?.name ?? "NA",
+            pokemon.name ?? "NA",
             style: pokemonSemiBold.copyWith(fontSize: 20),
           ),
           // show pokemon image
           Image.network(
-            pokemon?.imageUrl ?? "",
+            pokemon.imageUrl ?? "",
             height: 250,
             width: 250,
             fit: BoxFit.fill,
@@ -90,10 +95,10 @@ class _PokemonDetailsState extends State<PokemonDetails> {
           const Divider(height: 10, color: Colors.black54,),
 
           // Indicators
-          StatsCard(title: "Vida", value: pokemon?.hp! ?? 0),
-          StatsCard(title: "Ataque", value: pokemon?.attack! ?? 0),
-          StatsCard(title: "Defensa", value: pokemon?.defense! ?? 0),
-          StatsCard(title: "Velocidad", value: pokemon?.speed! ?? 0),
+          StatsCard(title: "Vida", value: pokemon.hp ?? 0),
+          StatsCard(title: "Ataque", value: pokemon.attack ?? 0),
+          StatsCard(title: "Defensa", value: pokemon.defense ?? 0),
+          StatsCard(title: "Velocidad", value: pokemon.speed ?? 0),
         ],
       ),
     );

@@ -9,11 +9,12 @@ import '../../models/skill.dart';
 import '../../res/colors/colors.dart';
 import '../../res/dimensions/dimensions.dart';
 import '../../res/styles/styles.dart';
+import '../../view_model/PokemonVM.dart';
 class SkillsDetails extends StatefulWidget {
 
   Pokemon pokemon;
-  List<Skill> skills;
-  SkillsDetails({Key? key, required this.skills, required this.pokemon}) : super(key: key);
+  PokemonVM viewModel;
+  SkillsDetails({Key? key, required this.pokemon, required this.viewModel}) : super(key: key);
 
   @override
   State<SkillsDetails> createState() => _SkillsDetailsState();
@@ -49,20 +50,20 @@ class _SkillsDetailsState extends State<SkillsDetails> {
           child: Consumer<SkillsVM>(builder: (context, viewModel, _) {
             switch (viewModel.skillsMain.status) {
               case Status.LOADING:
-                print("LOADING");
+                //print("LOADING");
                 return Center(child: CircularProgressIndicator());
               case Status.ERROR:
-                print("ERROR");
+                //print("ERROR");
                 return Center(child: Text(viewModel.skillsMain.message ?? "NA"));
               case Status.COMPLETED:
-                print("COMPLETED");
+                //print("COMPLETED");
                 return _getSkillListView(viewModel.skillsMain.data);
               default:
             }
             return Container();
           }),
         ),
-        widget.skills.isEmpty ? Container(
+        widget.pokemon.skills!.isEmpty ? Container(
           alignment: Alignment.centerLeft,
           child: Text(
               "Aún no tiene habilidades asignadas",
@@ -72,8 +73,8 @@ class _SkillsDetailsState extends State<SkillsDetails> {
               ),
               textAlign: TextAlign.left
           ),
-        ): _listSkillItem(widget.skills),
-        SizedBox(height: 40,),
+        ): _listSkillItem(widget.pokemon.skills!),
+        SizedBox(height: 20,),
         _choosenSkill.name != "" ? Container(
           alignment: Alignment.centerLeft,
           child: Text(
@@ -90,12 +91,17 @@ class _SkillsDetailsState extends State<SkillsDetails> {
   }
 
   Widget _listSkillItem(List<Skill> skills) {
-    return Text(skills.map((e) => e.name).join(", "));
+    return Text(
+        skills.map((e) => e.name).join(", "),
+        style: pokemonBold.copyWith(
+          color: ColorsApp.COLOR_PRIMARY,
+          fontSize: Dimensions.FONT_SIZE_LARGE,
+        ),
+    );
   }
 
 
   Widget _getSkillListView(List<Skill>? skillsList) {
-    print(skillsList?.length);
     return Container(
       height: 100,
       child: GridView.count(
@@ -104,10 +110,17 @@ class _SkillsDetailsState extends State<SkillsDetails> {
         children: List.generate(skillsList?.length ?? 0, (index) {
           return SkillCard(
               skill: skillsList![index],
-            isSelected: widget.skills.contains(skillsList[index]),
+            isSelected: widget.pokemon.skills!.contains(skillsList[index]),
             onTap: (){
-              setState(() => _choosenSkill = skillsList[index]);
 
+              if(widget.pokemon.skills!.contains(skillsList[index])){
+                widget.viewModel.removePokemonSkill(widget.pokemon, skillsList[index]);
+                setState(() => _choosenSkill = Skill());
+              }else{
+                //widget.pokemon.skills!.add(skillsList[index]);
+                widget.viewModel.addPokemonSkill(widget.pokemon, skillsList[index]);
+                setState(() => _choosenSkill = skillsList[index]);
+              }
             },
           );
         }),
