@@ -22,4 +22,6 @@ class PokemonVM extends ChangeNotifier{
         .then((value) => _setPokemonMain(ApiResponse.completed(value)))
         .onError((error, stackTrace) => _setPokemonMain(ApiResponse.error(error.toString())));
   }
+
+
 }

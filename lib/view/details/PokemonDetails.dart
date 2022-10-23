@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pokemon_app/res/styles/styles.dart';
+import 'package:pokemon_app/view/widgets/StatsCard.dart';
 import 'package:pokemon_app/view_model/PokemonVM.dart';
 import 'package:provider/provider.dart';
 
@@ -71,7 +72,6 @@ class _PokemonDetailsState extends State<PokemonDetails> {
   }
 
   Widget pokemonView(Pokemon? pokemon) {
-    print("pokemonView: ${pokemon?.toJson()}");
     return Container(
       margin: EdgeInsets.all(10),
       child: Column(
@@ -87,6 +87,13 @@ class _PokemonDetailsState extends State<PokemonDetails> {
             width: 250,
             fit: BoxFit.fill,
           ),
+          const Divider(height: 10, color: Colors.black54,),
+
+          // Indicators
+          StatsCard(title: "Vida", value: pokemon?.hp! ?? 0),
+          StatsCard(title: "Ataque", value: pokemon?.attack! ?? 0),
+          StatsCard(title: "Defensa", value: pokemon?.defense! ?? 0),
+          StatsCard(title: "Velocidad", value: pokemon?.speed! ?? 0),
         ],
       ),
     );

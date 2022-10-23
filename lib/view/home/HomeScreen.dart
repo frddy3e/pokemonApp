@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Pokedex")),
+        title: Center(child: Text(_choosenPokemon.name ?? "Pokemon App")),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: SingleChildScrollView(
